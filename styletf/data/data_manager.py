@@ -2,7 +2,7 @@ import tensorflow as tf
 import os
 
 class DataProcessor:
-
+# Something wrong in here
     def __init__(self):
         pass
 
@@ -23,4 +23,5 @@ class DataProcessor:
         img = tf.image.decode_image(img, channels=3)
         img = tf.image.convert_image_dtype(img, tf.float32)
         img = tf.image.resize(img, (224, 224))
+        img = img[tf.newaxis, :]
         return img
