@@ -3,6 +3,7 @@ from tensorflow.keras import Model
 from tensorflow.keras.applications import VGG19
 from tensorflow.keras.applications.vgg19 import preprocess_input
 from tensorflow.keras.layers import Lambda
+from styletf.utils import calc_gram_matrix
 
 class StyleTF(Model):
     # https://keras.io/applications/#extract-features-from-an-arbitrary-intermediate-layer-with-vgg19
@@ -26,11 +27,12 @@ class StyleTF(Model):
         scaled = self.scale255(inputs)
         preprocessed = preprocess_input(scaled)
 
-        style_output = self.style_model(preprocessed)
+        style_outputs = self.style_model(preprocessed)
+        style_gram_output = [calc_gram_matrix(style_output) for style_output in style_outputs]
         
         
-        content_output = self.content_model(preprocessed)
-        content_info = {layer_name: value for layer_name, value in zip(self.content_layer, content_output)}
+        content_outputs = self.content_model(preprocessed)
+        content_info = {layer_name: value for layer_name, value in zip(self.content_layer, content_outputs)}
         
 
         return self.model(inputs)   

@@ -1,5 +1,9 @@
-# https://www.tensorflow.org/api_docs/python/tf/einsumh
+import tensorflow as tf
 
 def calc_gram_matrix(input_mat):
-    # TODO: gram matrix
-    pass
+    
+        
+
+    matrix_t = tf.transpose(input_mat)
+    gram_matrix = tf.linalg.matmul(matrix_t, input_mat)
+    return gram_matrix

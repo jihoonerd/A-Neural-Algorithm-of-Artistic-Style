@@ -1,11 +1,12 @@
 import os
 import tempfile
-
+import numpy as np
 import tensorflow as tf
 
 from styletf.data.data_manager import DataProcessor
 from styletf.misc.sample_images import content_url, style_url
 from styletf.model.network import StyleTF
+from styletf.utils import calc_gram_matrix
 
 tf.config.experimental_run_functions_eagerly(True)
 
@@ -45,8 +46,21 @@ def test_extract_vgg_layer():
         outputs = style_tf(resized)
         outputs
 
+def test_gram_matrix():
+    """
+    It takes input shape of [batch, width, height, channel]
 
-
+    returns: [batch, ]
+    If matrix A is composed of vectors, a1, a2, a3, etc,
+    e.g. A = [a1, a2, a3, ...] note that a1, a2, a3 are column vecdtors
+    then Gram matrix G can be calculated as $G = A^T \cdot A$
+    """
+    matrix = np.zeros((1, 2, 2, 2))
+    matrix[0, :, :, 0] = [[1, 2], [3, 4]]
+    matrix[0, : ,:, 1] = [[5, 6], [7, 8]]
+    result = calc_gram_matrix(matrix).numpy()
+    assert result.shape == (2, 2 * 2)
+    
 def test_calc_content_loss():
     pass
 
