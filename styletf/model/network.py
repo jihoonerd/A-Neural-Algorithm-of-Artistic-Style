@@ -29,10 +29,9 @@ class StyleTF(Model):
 
         style_outputs = self.style_model(preprocessed)
         style_gram_output = [calc_gram_matrix(style_output) for style_output in style_outputs]
-        
-        
-        content_outputs = self.content_model(preprocessed)
-        content_info = {layer_name: value for layer_name, value in zip(self.content_layer, content_outputs)}
-        
+        style_gram_dict = {layer:value for layer, value in zip(self.style_layer, style_gram_output)}
 
-        return self.model(inputs)   
+        content_outputs = self.content_model(preprocessed)
+        content_dict = {layer:value for layer, value in zip(self.content_layer, content_outputs)}
+
+        return {'style': style_gram_dict, 'content': content_dict}
