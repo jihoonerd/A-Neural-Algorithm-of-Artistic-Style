@@ -18,7 +18,8 @@ def calc_style_loss(style, input):
     return style_loss
 
 def calc_total_loss(content_loss, style_loss, alpha_to_beta=0.001):
-
-    total_loss = content_loss + style_loss
-
+    """
+    Paper formual (7)
+    """
+    total_loss = content_loss + (1/alpha_to_beta) * style_loss
     return total_loss
