@@ -28,4 +28,5 @@ def calc_gram_matrix(input_mat):
     F = tf.transpose(mat_2d)
     # Calculate gram matrix
     gram_mat = tf.linalg.matmul(F, mat_2d) # this produce the shape of [channel, channel]
-    return gram_mat
+    denominator = input_mat.shape[1] * input_mat.shape[2]
+    return gram_mat / denominator
