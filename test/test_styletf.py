@@ -53,7 +53,7 @@ def test_extract_vgg_layer():
         assert len(outputs['content']) == 1
         assert len(outputs['style']) == 5
         assert outputs['style']['block5_conv1'].shape == (512, 512) # Gram matrix shape validity test
-        assert outputs['content']['block5_conv1'].shape == (14, 14, 512)
+        assert outputs['content']['block5_conv1'].shape == (1, 14, 14, 512)
 
 def test_calc_content_loss():
     tf.random.set_seed(42)
