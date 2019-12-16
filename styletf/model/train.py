@@ -1,19 +1,62 @@
 import tensorflow as tf
-
+from styletf.model.network import StyleTFNetwork
 
 class StyleTFTrain():
 
     def __init__(self, content_image, style_image, content_layer, image_layer):
-        pass
+        self.content_image = content_image
+        self.style_image = style_image
+        self.content_layer = content_layer
+        self.style_layer = style_layer
+        self.input_image = tf.Variable(tf.random.normal(shape=style_resized.shape, mean=0.5, seed=42), dtype=tf.float32)
+        self.model = StyleTFNetwork(content_layer=self.content_layer, style_layer=self.style_layer)
+        self.optimizer = tf.keras.optimizers.Adam()
 
-    def calc_content_loss(self, content, input_img)
+    def train(self, input_image, epochs: int=100):
 
-    def calc_style_loss(self, style, input_img)
 
-    def calc_total_loss(self, input)
+        for epoch in range(epochs):
 
-    def train_step(self)
+            loss = self.train_step(self.input_image, self.conten)
 
+    @tf.function
+    def train_step(self, input_img, content_img, style_img):
+        with tf.GradientTape() as tape:
+            content_loss = self.calc_content_loss(self.model(self.content_image), self.model(self.input_image))
+            style_loss = self.calc_style_loss(self.model(self.style_image), self.model(self.input_image))
+            total_loss = self.calc_total_loss(content_loss, style_loss)
+        
+    @tf.function
+    def calc_content_loss(target, input_img):
+        """
+        Paper formula (1)
+        https://www.tensorflow.org/api_docs/python/tf/math/add_n
+        """
+        content = target['content']
+        input_content = input_img['content']
+
+        content_loss = tf.add_n([tf.reduce_mean(tf.math.square(content[layer] - input_content[layer])) for layer in content.keys()])
+        return content_loss
+
+    @tf.function
+    def calc_style_loss(target, input_img):
+        """
+        Paper formula (3), (4), (5)
+        """
+        style = target['style']
+        input_style = input_img['style']
+
+        style_loss = tf.add_n([tf.reduce_mean(tf.math.square(style[layer] - input_style[layer])) for layer in style.keys()])
+        style_loss /= len(style)
+        return style_loss
+
+    @tf.function
+    def calc_total_loss(content_loss, style_loss, alpha_to_beta=0.001):
+        """
+        Paper formual (7)
+        """
+        total_loss = content_loss + (1/alpha_to_beta) * style_loss
+        return total_loss
 
 
 @tf.function

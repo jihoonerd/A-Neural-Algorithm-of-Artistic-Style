@@ -9,7 +9,7 @@ import tensorflow as tf
 
 from styletf.data.data_utils import download_image, resize_image
 from styletf.misc.sample_images import content_url, style_url
-from styletf.model.network import StyleTF
+from styletf.model.network import StyleTFNetwork
 from styletf.model.train import calc_content_loss, calc_style_loss, calc_total_loss, train_step
 from styletf.utils import calc_gram_matrix
 
@@ -32,7 +32,7 @@ content_resized = resize_image(content_path)
 # input_image = tf.Variable(tf.random.normal(shape=style_resized.shape, mean=0.5, seed=42), dtype=tf.float32)
 input_image = tf.Variable(content_resized, tf.float32)
 
-style_tf = StyleTF(style_layer=style_layer, content_layer=content_layer)
+style_tf = StyleTFNetwork(style_layer=style_layer, content_layer=content_layer)
 optimizer = tf.keras.optimizers.Adam()
 
 epochs = 1000

@@ -5,7 +5,7 @@ from tensorflow.keras.applications.vgg19 import preprocess_input
 from tensorflow.keras.layers import Lambda
 from styletf.utils import calc_gram_matrix
 
-class StyleTF(Model):
+class StyleTFNetwork(Model):
     # https://keras.io/applications/#extract-features-from-an-arbitrary-intermediate-layer-with-vgg19
 
     def __init__(self, style_layer, content_layer):

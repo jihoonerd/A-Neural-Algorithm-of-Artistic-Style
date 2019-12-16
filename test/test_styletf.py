@@ -6,7 +6,7 @@ import tensorflow as tf
 
 from styletf.data.data_utils import download_image, resize_image
 from styletf.misc.sample_images import content_url, style_url
-from styletf.model.network import StyleTF
+from styletf.model.network import StyleTFNetwork
 from styletf.model.train import calc_content_loss, calc_style_loss, calc_total_loss, train_step
 from styletf.utils import calc_gram_matrix
 
@@ -23,7 +23,7 @@ def test_resize_img():
         assert resized.shape == (1, 224, 224, 3)
 
 def test_load_vgg_model():
-    styletf = StyleTF(style_layer=['block1_conv1'], content_layer=['block5_conv1'])
+    styletf = StyleTFNetwork(style_layer=['block1_conv1'], content_layer=['block5_conv1'])
     layer_names = [layer.name for layer in styletf.vgg_model.layers]
     layer_list = ['input_1',
                   'block1_conv1', 'block1_conv2', 'block1_pool',
@@ -45,7 +45,7 @@ def test_extract_vgg_layer():
         path = download_image(file_name=file_name, url=style_url)
         resized = resize_image(path)
 
-        style_tf = StyleTF(style_layer=style_layer, content_layer=content_layer)
+        style_tf = StyleTFNetwork(style_layer=style_layer, content_layer=content_layer)
         outputs = style_tf(resized)
 
         assert 'content' in outputs
@@ -67,7 +67,7 @@ def test_calc_content_loss():
         assert tf.reduce_max(resized) <= 1.0
         assert tf.reduce_min(resized) >= 0.0
 
-        style_tf = StyleTF(style_layer=style_layer, content_layer=content_layer)
+        style_tf = StyleTFNetwork(style_layer=style_layer, content_layer=content_layer)
         outputs = style_tf(resized)
     
     input_image = tf.Variable(tf.random.normal(shape=resized.shape, mean=0.5, seed=42), dtype=tf.float32)
@@ -94,7 +94,7 @@ def test_calc_style_loss():
         assert tf.reduce_max(resized) <= 1.0
         assert tf.reduce_min(resized) >= 0.0
 
-        style_tf = StyleTF(style_layer=style_layer, content_layer=content_layer)
+        style_tf = StyleTFNetwork(style_layer=style_layer, content_layer=content_layer)
         outputs = style_tf(resized)
     
     input_image = tf.Variable(tf.random.normal(shape=resized.shape, mean=0.5, seed=42), dtype=tf.float32)
@@ -117,7 +117,7 @@ def test_calc_total_loss():
         path = download_image(file_name=file_name, url=style_url)
         resized = resize_image(path)
 
-        style_tf = StyleTF(style_layer=style_layer, content_layer=content_layer)
+        style_tf = StyleTFNetwork(style_layer=style_layer, content_layer=content_layer)
         outputs = style_tf(resized)
     
     input_image = tf.Variable(tf.random.normal(shape=resized.shape, mean=0.5, seed=42), dtype=tf.float32)
@@ -148,7 +148,7 @@ def test_training():
 
         input_image = tf.Variable(tf.random.normal(shape=style_resized.shape, mean=0.5, seed=42), dtype=tf.float32)
 
-        style_tf = StyleTF(style_layer=style_layer, content_layer=content_layer)
+        style_tf = StyleTFNetwork(style_layer=style_layer, content_layer=content_layer)
         optimizer = tf.keras.optimizers.Adam()
 
         epochs = 10
