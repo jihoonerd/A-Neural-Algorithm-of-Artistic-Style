@@ -14,12 +14,13 @@ class StyleTFTrain():
         self.style_image = style_image
         self.content_layer = content_layer
         self.style_layer = style_layer
-        self.input_image = tf.Variable(tf.random.normal(shape=content_image.shape, mean=0.5, seed=42), dtype=tf.float32)
+        # self.input_image = tf.Variable(tf.random.normal(shape=content_image.shape, mean=0.5, seed=42), dtype=tf.float32)
+        self.input_image = tf.Variable(content_image)
         self.model = StyleTFNetwork(content_layer=self.content_layer, style_layer=self.style_layer)
         self.optimizer = tf.keras.optimizers.Adam()
 
     
-    def train(self, epochs: int=10000):
+    def train(self, epochs: int=100000):
 
         content_image = self.model(self.content_image)
         style_image = self.model(self.style_image)
@@ -28,7 +29,7 @@ class StyleTFTrain():
             loss = self.train_step(self.input_image, content_image, style_image)
             print("Epoch: {} / Loss: {}".format(epoch, loss))
 
-            if epoch % 50 == 0:
+            if epoch % 1000 == 0:
                 if not os.path.exists("./output/"):
                     os.mkdir("./output/")
                 imageio.imwrite("./output/styletf_{}.jpg".format(epoch), np.array(self.input_image[0, :, :, :].numpy()*255, np.uint8))
