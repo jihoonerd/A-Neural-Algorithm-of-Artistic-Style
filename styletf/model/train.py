@@ -19,7 +19,7 @@ class StyleTFTrain():
         self.optimizer = tf.keras.optimizers.Adam()
 
     
-    def train(self, epochs: int=100):
+    def train(self, epochs: int=10000):
 
         content_image = self.model(self.content_image)
         style_image = self.model(self.style_image)
@@ -28,7 +28,7 @@ class StyleTFTrain():
             loss = self.train_step(self.input_image, content_image, style_image)
             print("Epoch: {} / Loss: {}".format(epoch, loss))
 
-            if epoch % 10 == 0:
+            if epoch % 50 == 0:
                 if not os.path.exists("./output/"):
                     os.mkdir("./output/")
                 imageio.imwrite("./output/styletf_{}.jpg".format(epoch), np.array(self.input_image[0, :, :, :].numpy()*255, np.uint8))
