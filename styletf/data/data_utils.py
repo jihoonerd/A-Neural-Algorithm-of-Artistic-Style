@@ -1,5 +1,7 @@
-import tensorflow as tf
 import os
+import urllib.request
+
+import tensorflow as tf
 
 
 def download_image(file_name, url):
@@ -7,9 +9,11 @@ def download_image(file_name, url):
     Take source for url and returns saved path where images are downloaded.
     """
 
-    img_path = tf.keras.utils.get_file(file_name, url)
-
-    return img_path
+    if not os.path.exists("./source_images"):
+        os.mkdir("source_images")
+    file_path = "./source_images/" + file_name
+    urllib.request.urlretrieve(url, file_path)
+    return file_path
 
 def resize_image(image_path):
     if not os.path.exists(image_path):
