@@ -1,10 +1,10 @@
 # A Neural Algorithm of Artistic Style
 
-|Original|Style Transfer|
-|---|---|
-|![광화문1](/assets/gwang1_original.jpg)|![광화문1+gogh](/assets/gwang1_style.jpg)|
-|![광화문2](/assets/gwang2_original.jpg)|![광화문2+gogh](/assets/gwang2_style.jpg)|
-|![eiffel](/assets/eiffel_original.jpg)|![eiffel+oriental](/assets/eiffel_style.jpg)|
+|Content|Style|Style Transfer|
+|---|---|---|
+|![광화문1](/assets/gwang1_original.jpg)|![gogh](/assets/gogh.jpg)|![광화문1+gogh](/assets/gwang1_style.jpg)|
+|![광화문2](/assets/gwang2_original.jpg)|![gogh](/assets/gogh.jpg)|![광화문2+gogh](/assets/gwang2_style.jpg)|
+|![eiffel](/assets/eiffel_original.jpg)|![kimhongdo](/assets/kimhongdo.jpg)|![eiffel+oriental](/assets/eiffel_style.jpg)|
 
 This repository implements the paper: **[A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)**.
 
