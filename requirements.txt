@@ -39,7 +39,7 @@ logger==1.4
 Markdown==3.1.1
 MarkupSafe==1.1.1
 mccabe==0.6.1
-mistune==0.8.4
+mistune==2.0.3
 more-itertools==8.0.0
 nbconvert==5.6.1
 nbformat==4.4.0
